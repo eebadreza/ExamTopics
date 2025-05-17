@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AWS Practice Questions</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 3rem 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                width: 200px;
+                text-align: center;
+                transition: transform 0.2s;
+                cursor: pointer;
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card h3 {
+                margin: 0 0 1rem;
+                font-size: 1.2rem;
+            }
+
+            .card a {
+                text-decoration: none;
+                color: white;
+                background-color: #007bff;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .card a:hover {
+                background-color: #0056b3;
+            }
+
+            .clicked {
+                background-color: #00e676 !important; /* green */
+            }
+
+            .review {
+                background-color: #9c27b0 !important; /* purple */
+            }
+        </style>
+    </head>
+    <body>
+        <h1
+            style="
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            "
+        >
+            AWS Certified Cloud Practitioner – Practice Questions
+        </h1>
+
+        <script>
+            const links = [
+                'https://www.example.com/q1',
+                'https://www.example.com/q2',
+                'https://www.example.com/q3',
+            ];
+
+            links.forEach((link, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+        <a href="${link}" target="_blank" class="view-btn">Question ${
+                    index + 1
+                }</a>
+      `;
+
+                const viewBtn = card.querySelector('.view-btn');
+
+                // Double-click: toggle review mode
+                card.addEventListener('dblclick', () => {
+                    if (card.classList.contains('review')) {
+                        card.classList.remove('review');
+                    } else {
+                        card.classList.add('review');
+                        card.classList.remove('clicked');
+                    }
+                });
+
+                // View button click: only mark green if not in review mode
+                viewBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!card.classList.contains('review')) {
+                        card.classList.add('clicked');
+                    }
+                });
+
+                document.body.appendChild(card);
+            });
+        </script>
+    </body>
+</html>

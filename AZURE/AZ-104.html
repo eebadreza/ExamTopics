@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>AWS Practice Questions</title>
+        <title>AZ-104</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -56,6 +56,26 @@
             .review {
                 background-color: #9c27b0 !important; /* purple */
             }
+            .reset-btn {
+                position: fixed;
+                left: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 999;
+            }
+
+            .reset-btn.top {
+                top: 10px;
+            }
+
+            .reset-btn.bottom {
+                bottom: 10px;
+            }
         </style>
     </head>
     <body>
@@ -67,7 +87,7 @@
                 margin-bottom: 1.5rem;
             "
         >
-            AWS Certified Cloud Practitioner – Practice Questions
+            Azure Administrator Associate – Practice Questions
         </h1>
 
         <script>
@@ -604,37 +624,81 @@
                 'https://www.bing.com/ck/a?!&&p=6d6d4fe4fd1afe71d679c11276ef47933c3d544113aef17c6c06a520a8118f01JmltdHM9MTc0NzQ0MDAwMA&ptn=3&ver=2&hsh=4&fclid=0c08e12d-6c28-6f5d-04a0-f4c26d736ece&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvNTc0MTgtZXhhbS1hei0xMDQtdG9waWMtMTYtcXVlc3Rpb24tMS1kaXNjdXNzaW9uLw&ntb=1',
             ];
 
-            links.forEach((link, index) => {
+            const completed = new Set(
+                JSON.parse(localStorage.getItem('completed') || '[]')
+            );
+            const review = new Set(
+                JSON.parse(localStorage.getItem('review') || '[]')
+            );
+
+            links.forEach((link, i) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `
-        <a href="${link}" target="_blank" class="view-btn">Question ${
-                    index + 1
-                }</a>
-      `;
-
-                const viewBtn = card.querySelector('.view-btn');
-
-                // Double-click: toggle review mode
-                card.addEventListener('dblclick', () => {
-                    if (card.classList.contains('review')) {
-                        card.classList.remove('review');
-                    } else {
-                        card.classList.add('review');
-                        card.classList.remove('clicked');
-                    }
-                });
-
-                // View button click: only mark green if not in review mode
-                viewBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (!card.classList.contains('review')) {
-                        card.classList.add('clicked');
-                    }
-                });
-
+                card.ondblclick = () => handleDoubleClick(i);
+                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+                    i + 1
+                }</a>`;
                 document.body.appendChild(card);
             });
+
+            // On load
+            window.onload = () => {
+                applyClasses();
+            };
+
+            // Mark as completed
+            function markCompleted(index, event) {
+                event.preventDefault();
+                completed.add(index);
+                review.delete(index);
+                saveStates();
+                applyClasses();
+                window.open(event.target.href, '_blank');
+            }
+
+            // Handle double-click to mark/unmark review
+            function handleDoubleClick(index) {
+                if (review.has(index)) {
+                    review.delete(index);
+                } else {
+                    review.add(index);
+                    completed.delete(index);
+                }
+                saveStates();
+                applyClasses();
+            }
+
+            // Reset all highlights
+            function resetHighlights() {
+                localStorage.removeItem('completed');
+                localStorage.removeItem('review');
+                completed.clear();
+                review.clear();
+                applyClasses();
+            }
+
+            // Save states to localStorage
+            function saveStates() {
+                localStorage.setItem(
+                    'completed',
+                    JSON.stringify([...completed])
+                );
+                localStorage.setItem('review', JSON.stringify([...review]));
+            }
+
+            // Apply class styling
+            function applyClasses() {
+                document.querySelectorAll('.card').forEach((card, i) => {
+                    card.classList.remove('clicked', 'review');
+                    if (completed.has(i)) card.classList.add('clicked');
+                    if (review.has(i)) card.classList.add('review');
+                });
+            }
         </script>
+
+        <!-- Reset Button -->
+        <button onclick="resetHighlights()" class="reset-btn bottom">
+            Reset Highlights
+        </button>
     </body>
 </html>

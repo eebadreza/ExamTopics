@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Question Links</title>
+        <title>CLF-C02</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -1084,22 +1084,6 @@
                 'https://www.bing.com/ck/a?!&&p=75a1010cdf65995fdcb073ab12e94f15fb59eacbd86db6e3f534aac15dbeeb60JmltdHM9MTc0NjY2MjQwMA&ptn=3&ver=2&hsh=4&fclid=0131e130-e2c5-6d03-3988-f4d6e3726cfc&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvYW1hem9uL3ZpZXcvMTE2MDc0LWV4YW0tYXdzLWNlcnRpZmllZC1jbG91ZC1wcmFjdGl0aW9uZXItdG9waWMtMS1xdWVzdGlvbi05ODgv&ntb=1',
             ];
 
-            links.forEach((link, i) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.setAttribute('onclick', `handleTripleClick(${i}, this)`);
-                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
-                    i + 1
-                }</a>`;
-                document.body.appendChild(card);
-            });
-        </script>
-
-        <button onclick="resetHighlights()" class="reset-btn bottom">
-            Reset Highlights
-        </button>
-
-        <script>
             const completed = new Set(
                 JSON.parse(localStorage.getItem('completed') || '[]')
             );
@@ -1107,12 +1091,22 @@
                 JSON.parse(localStorage.getItem('review') || '[]')
             );
 
-            // Apply saved states on load
+            links.forEach((link, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.ondblclick = () => handleDoubleClick(i);
+                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+                    i + 1
+                }</a>`;
+                document.body.appendChild(card);
+            });
+
+            // On load
             window.onload = () => {
                 applyClasses();
             };
 
-            // Handle link click
+            // Mark as completed
             function markCompleted(index, event) {
                 event.preventDefault();
                 completed.add(index);
@@ -1122,22 +1116,16 @@
                 window.open(event.target.href, '_blank');
             }
 
-            // Triple click to mark for review
-            const clickCounts = {};
-            function handleTripleClick(index, card) {
-                clickCounts[index] = clickCounts[index] || [];
-                clickCounts[index].push(Date.now());
-                clickCounts[index] = clickCounts[index].filter(
-                    (t) => Date.now() - t < 600
-                );
-
-                if (clickCounts[index].length >= 3) {
+            // Handle double-click to mark/unmark review
+            function handleDoubleClick(index) {
+                if (review.has(index)) {
+                    review.delete(index);
+                } else {
                     review.add(index);
                     completed.delete(index);
-                    saveStates();
-                    applyClasses();
-                    clickCounts[index] = [];
                 }
+                saveStates();
+                applyClasses();
             }
 
             // Reset all highlights
@@ -1149,7 +1137,7 @@
                 applyClasses();
             }
 
-            // Save to localStorage
+            // Save states to localStorage
             function saveStates() {
                 localStorage.setItem(
                     'completed',
@@ -1158,7 +1146,7 @@
                 localStorage.setItem('review', JSON.stringify([...review]));
             }
 
-            // Apply class names
+            // Apply class styling
             function applyClasses() {
                 document.querySelectorAll('.card').forEach((card, i) => {
                     card.classList.remove('clicked', 'review');
@@ -1167,5 +1155,9 @@
                 });
             }
         </script>
+
+        <button onclick="resetHighlights()" class="reset-btn bottom">
+            Reset Highlights
+        </button>
     </body>
 </html>

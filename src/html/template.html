@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AZ-500</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 3rem 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                width: 200px;
+                text-align: center;
+                transition: transform 0.2s;
+                cursor: pointer;
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card h3 {
+                margin: 0 0 1rem;
+                font-size: 1.2rem;
+            }
+
+            .card a {
+                text-decoration: none;
+                color: white;
+                background-color: #007bff;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .card a:hover {
+                background-color: #0056b3;
+            }
+
+            .clicked {
+                background-color: #00e676 !important; /* green */
+            }
+
+            .review {
+                background-color: #9c27b0 !important; /* purple */
+            }
+            .reset-btn {
+                position: fixed;
+                left: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 999;
+            }
+
+            .reset-btn.top {
+                top: 10px;
+            }
+
+            .reset-btn.bottom {
+                bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1
+            style="
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            "
+        >
+            – Practice Questions
+        </h1>
+
+        <script>
+            links = [];
+
+            const completed = new Set(
+                JSON.parse(localStorage.getItem('completed') || '[]')
+            );
+            const review = new Set(
+                JSON.parse(localStorage.getItem('review') || '[]')
+            );
+
+            // Create cards
+            links.forEach((link, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.ondblclick = () => handleDoubleClick(i);
+                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+                    i + 1
+                }</a>`;
+                document.body.appendChild(card);
+            });
+
+            // On load
+            window.onload = () => {
+                applyClasses();
+            };
+
+            // Mark as completed (green)
+            function markCompleted(index, event) {
+                event.preventDefault();
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
+                saveStates();
+                applyClasses();
+
+                // Always open the link in new tab
+                window.open(event.target.href, '_blank');
+            }
+
+            // Toggle review (purple) on double-click
+            function handleDoubleClick(index) {
+                if (review.has(index)) {
+                    review.delete(index); // toggle off
+                } else {
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
+                }
+                saveStates();
+                applyClasses();
+            }
+
+            // Reset all highlights
+            function resetHighlights() {
+                localStorage.removeItem('completed');
+                localStorage.removeItem('review');
+                completed.clear();
+                review.clear();
+                applyClasses();
+            }
+
+            // Save states to localStorage
+            function saveStates() {
+                localStorage.setItem(
+                    'completed',
+                    JSON.stringify([...completed])
+                );
+                localStorage.setItem('review', JSON.stringify([...review]));
+            }
+
+            // Apply class styling (review > completed)
+            function applyClasses() {
+                document.querySelectorAll('.card').forEach((card, i) => {
+                    card.classList.remove('clicked', 'review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
+                });
+            }
+        </script>
+
+        <button onclick="resetHighlights()" class="reset-btn bottom">
+            Reset Highlights
+        </button>
+    </body>
+</html>

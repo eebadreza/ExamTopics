@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>AZ-400</title>
+        <title>AZ-500</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -91,7 +91,7 @@
         </h1>
 
         <script>
-            const links = [
+            links = [
                 'https://www.bing.com/ck/a?!&&p=8f5d868aff4868db99f2c66af51716f35d426eb908c4c0946a969bdb3733a48aJmltdHM9MTc0ODA0NDgwMA&ptn=3&ver=2&hsh=4&fclid=0b6310a4-0e9d-680b-07ec-05530f5c69a1&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvNzM4ODQtZXhhbS1hei00MDAtdG9waWMtMS1xdWVzdGlvbi0xLWRpc2N1c3Npb24v&ntb=1',
                 'https://www.bing.com/ck/a?!&&p=08bf5179d26ca8532faaf5a18aebacae0b59d1cb1dca5edf3a1b93f6044fbd99JmltdHM9MTc0ODA0NDgwMA&ptn=3&ver=2&hsh=4&fclid=0b6310a4-0e9d-680b-07ec-05530f5c69a1&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvNTY4OTgtZXhhbS1hei00MDAtdG9waWMtMS1xdWVzdGlvbi0yLWRpc2N1c3Npb24v&ntb=1',
                 'https://www.bing.com/ck/a?!&&p=2d94697ca16bc3be6a9fa4069744416bf1860f88ac65796e9f55bb45dd9e7310JmltdHM9MTc0ODA0NDgwMA&ptn=3&ver=2&hsh=4&fclid=0b6310a4-0e9d-680b-07ec-05530f5c69a1&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvNzM5NTAtZXhhbS1hei00MDAtdG9waWMtMS1xdWVzdGlvbi0zLWRpc2N1c3Npb24v&ntb=1',
@@ -640,6 +640,7 @@
                 JSON.parse(localStorage.getItem('review') || '[]')
             );
 
+            // Create cards
             links.forEach((link, i) => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -655,23 +656,29 @@
                 applyClasses();
             };
 
-            // Mark as completed
+            // Mark as completed (green)
             function markCompleted(index, event) {
                 event.preventDefault();
-                completed.add(index);
-                review.delete(index);
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
                 saveStates();
                 applyClasses();
+
+                // Always open the link in new tab
                 window.open(event.target.href, '_blank');
             }
 
-            // Handle double-click to mark/unmark review
+            // Toggle review (purple) on double-click
             function handleDoubleClick(index) {
                 if (review.has(index)) {
-                    review.delete(index);
+                    review.delete(index); // toggle off
                 } else {
-                    review.add(index);
-                    completed.delete(index);
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
                 }
                 saveStates();
                 applyClasses();
@@ -695,17 +702,20 @@
                 localStorage.setItem('review', JSON.stringify([...review]));
             }
 
-            // Apply class styling
+            // Apply class styling (review > completed)
             function applyClasses() {
                 document.querySelectorAll('.card').forEach((card, i) => {
                     card.classList.remove('clicked', 'review');
-                    if (completed.has(i)) card.classList.add('clicked');
-                    if (review.has(i)) card.classList.add('review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
                 });
             }
         </script>
 
-        <!-- Reset Button -->
         <button onclick="resetHighlights()" class="reset-btn bottom">
             Reset Highlights
         </button>

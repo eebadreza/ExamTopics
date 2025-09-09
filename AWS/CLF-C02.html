@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>CLF-C02</title>
+        <title>AZ-500</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -50,13 +50,12 @@
             }
 
             .clicked {
-                background-color: #00e676 !important; /* bright green */
+                background-color: #00e676 !important; /* green */
             }
 
             .review {
-                background-color: #9c27b0 !important; /* bright purple */
+                background-color: #9c27b0 !important; /* purple */
             }
-
             .reset-btn {
                 position: fixed;
                 left: 10px;
@@ -80,7 +79,6 @@
         </style>
     </head>
     <body>
-        <!-- Question cards -->
         <h1
             style="
                 width: 100%;
@@ -93,7 +91,7 @@
         </h1>
 
         <script>
-            const links = [
+            links = [
                 'https://www.bing.com/ck/a?!&&p=aeb203cee852613d77451951ff7f71b9ed56c342d1e18d582e4d9b400da880ebJmltdHM9MTc0NjU3NjAwMA&ptn=3&ver=2&hsh=4&fclid=11f9a4e8-c611-6820-0e83-b10ec75669f2&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvYW1hem9uL3ZpZXcvOTYzMTYtZXhhbS1hd3MtY2VydGlmaWVkLWNsb3VkLXByYWN0aXRpb25lci10b3BpYy0xLXF1ZXN0aW9uLTU1Mi8&ntb=1',
                 'https://www.bing.com/ck/a?!&&p=ab890f310e3dcee49ba48197b6d5788604e297dd871d5bdb96ab9bb79371120bJmltdHM9MTc0NjU3NjAwMA&ptn=3&ver=2&hsh=4&fclid=11f9a4e8-c611-6820-0e83-b10ec75669f2&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvYW1hem9uL3ZpZXcvMTI2MjM0LWV4YW0tYXdzLWNlcnRpZmllZC1jbG91ZC1wcmFjdGl0aW9uZXItY2xmLWMwMi10b3BpYy0xLw&ntb=1',
                 'https://www.bing.com/ck/a?!&&p=8316295703fd39163534bed7a7bf2f3e6fbac724f933a8246d020faa25fce1f8JmltdHM9MTc0NjU3NjAwMA&ptn=3&ver=2&hsh=4&fclid=11f9a4e8-c611-6820-0e83-b10ec75669f2&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvYW1hem9uL3ZpZXcvMTIzNDQ3LWV4YW0tYXdzLWNlcnRpZmllZC1jbG91ZC1wcmFjdGl0aW9uZXItY2xmLWMwMi10b3BpYy0xLw&ntb=1',
@@ -1091,6 +1089,7 @@
                 JSON.parse(localStorage.getItem('review') || '[]')
             );
 
+            // Create cards
             links.forEach((link, i) => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -1106,23 +1105,29 @@
                 applyClasses();
             };
 
-            // Mark as completed
+            // Mark as completed (green)
             function markCompleted(index, event) {
                 event.preventDefault();
-                completed.add(index);
-                review.delete(index);
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
                 saveStates();
                 applyClasses();
+
+                // Always open the link in new tab
                 window.open(event.target.href, '_blank');
             }
 
-            // Handle double-click to mark/unmark review
+            // Toggle review (purple) on double-click
             function handleDoubleClick(index) {
                 if (review.has(index)) {
-                    review.delete(index);
+                    review.delete(index); // toggle off
                 } else {
-                    review.add(index);
-                    completed.delete(index);
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
                 }
                 saveStates();
                 applyClasses();
@@ -1146,12 +1151,16 @@
                 localStorage.setItem('review', JSON.stringify([...review]));
             }
 
-            // Apply class styling
+            // Apply class styling (review > completed)
             function applyClasses() {
                 document.querySelectorAll('.card').forEach((card, i) => {
                     card.classList.remove('clicked', 'review');
-                    if (completed.has(i)) card.classList.add('clicked');
-                    if (review.has(i)) card.classList.add('review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
                 });
             }
         </script>

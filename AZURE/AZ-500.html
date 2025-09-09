@@ -87,7 +87,7 @@
                 margin-bottom: 1.5rem;
             "
         >
-            Azure Security Engineer Associates – Practice Questions
+            Azure Security Engineer Associate – Practice Questions
         </h1>
 
         <script>
@@ -602,6 +602,7 @@
                 JSON.parse(localStorage.getItem('review') || '[]')
             );
 
+            // Create cards
             links.forEach((link, i) => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -617,23 +618,29 @@
                 applyClasses();
             };
 
-            // Mark as completed
+            // Mark as completed (green)
             function markCompleted(index, event) {
                 event.preventDefault();
-                completed.add(index);
-                review.delete(index);
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
                 saveStates();
                 applyClasses();
+
+                // Always open the link in new tab
                 window.open(event.target.href, '_blank');
             }
 
-            // Handle double-click to mark/unmark review
+            // Toggle review (purple) on double-click
             function handleDoubleClick(index) {
                 if (review.has(index)) {
-                    review.delete(index);
+                    review.delete(index); // toggle off
                 } else {
-                    review.add(index);
-                    completed.delete(index);
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
                 }
                 saveStates();
                 applyClasses();
@@ -657,17 +664,90 @@
                 localStorage.setItem('review', JSON.stringify([...review]));
             }
 
-            // Apply class styling
+            // Apply class styling (review > completed)
             function applyClasses() {
                 document.querySelectorAll('.card').forEach((card, i) => {
                     card.classList.remove('clicked', 'review');
-                    if (completed.has(i)) card.classList.add('clicked');
-                    if (review.has(i)) card.classList.add('review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
                 });
             }
+            //     const completed = new Set(
+            //         JSON.parse(localStorage.getItem('completed') || '[]')
+            //     );
+            //     const review = new Set(
+            //         JSON.parse(localStorage.getItem('review') || '[]')
+            //     );
+
+            //     links.forEach((link, i) => {
+            //         const card = document.createElement('div');
+            //         card.className = 'card';
+            //         card.ondblclick = () => handleDoubleClick(i);
+            //         card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+            //             i + 1
+            //         }</a>`;
+            //         document.body.appendChild(card);
+            //     });
+
+            //     // On load
+            //     window.onload = () => {
+            //         applyClasses();
+            //     };
+
+            //     // Mark as completed
+            //     function markCompleted(index, event) {
+            //         event.preventDefault();
+            //         completed.add(index);
+            //         review.delete(index);
+            //         saveStates();
+            //         applyClasses();
+            //         window.open(event.target.href, '_blank');
+            //     }
+
+            //     // Handle double-click to mark/unmark review
+            //     function handleDoubleClick(index) {
+            //         if (review.has(index)) {
+            //             review.delete(index);
+            //         } else {
+            //             review.add(index);
+            //             completed.delete(index);
+            //         }
+            //         saveStates();
+            //         applyClasses();
+            //     }
+
+            //     // Reset all highlights
+            //     function resetHighlights() {
+            //         localStorage.removeItem('completed');
+            //         localStorage.removeItem('review');
+            //         completed.clear();
+            //         review.clear();
+            //         applyClasses();
+            //     }
+
+            //     // Save states to localStorage
+            //     function saveStates() {
+            //         localStorage.setItem(
+            //             'completed',
+            //             JSON.stringify([...completed])
+            //         );
+            //         localStorage.setItem('review', JSON.stringify([...review]));
+            //     }
+
+            //     // Apply class styling
+            //     function applyClasses() {
+            //         document.querySelectorAll('.card').forEach((card, i) => {
+            //             card.classList.remove('clicked', 'review');
+            //             if (completed.has(i)) card.classList.add('clicked');
+            //             if (review.has(i)) card.classList.add('review');
+            //         });
+            //     }
         </script>
 
-        <!-- Reset Button -->
         <button onclick="resetHighlights()" class="reset-btn bottom">
             Reset Highlights
         </button>

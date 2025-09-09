@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>AZ-700</title>
+        <title>AZ-500</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -87,11 +87,11 @@
                 margin-bottom: 1.5rem;
             "
         >
-            Azure Network Administrator Associate – Practice Questions
+            Azure Network Engineer Associate – Practice Questions
         </h1>
 
         <script>
-            const links = [
+            links = [
                 'https://www.bing.com/ck/a?!&&p=c1f49cc3933e7b2fa70012fa625a66ec425d3962ffa9417e25efc220da26f30dJmltdHM9MTc0ODA0NDgwMA&ptn=3&ver=2&hsh=4&fclid=185158d5-7434-6051-2145-4d2275c26111&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvODIxMjAtZXhhbS1hei03MDAtdG9waWMtMS1xdWVzdGlvbi0xLWRpc2N1c3Npb24v&ntb=1',
                 'https://www.bing.com/ck/a?!&&p=be761ba29d4e60bbc026cc99e43166b06884f1d9bccf5ee2b120e7a4ed6a53dbJmltdHM9MTc0ODA0NDgwMA&ptn=3&ver=2&hsh=4&fclid=185158d5-7434-6051-2145-4d2275c26111&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvNjQxOTgtZXhhbS1hei03MDAtdG9waWMtMS1xdWVzdGlvbi0yLWRpc2N1c3Npb24v&ntb=1',
                 'https://www.bing.com/ck/a?!&&p=1b3a10a46d0bf1405d01a3a231ee77c4b35fe8ce1b0e2f9029850321f3792a00JmltdHM9MTc0ODA0NDgwMA&ptn=3&ver=2&hsh=4&fclid=185158d5-7434-6051-2145-4d2275c26111&u=a1aHR0cHM6Ly93d3cuZXhhbXRvcGljcy5jb20vZGlzY3Vzc2lvbnMvbWljcm9zb2Z0L3ZpZXcvNjQxOTctZXhhbS1hei03MDAtdG9waWMtMS1xdWVzdGlvbi0zLWRpc2N1c3Npb24v&ntb=1',
@@ -445,6 +445,7 @@
                 JSON.parse(localStorage.getItem('review') || '[]')
             );
 
+            // Create cards
             links.forEach((link, i) => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -460,23 +461,29 @@
                 applyClasses();
             };
 
-            // Mark as completed
+            // Mark as completed (green)
             function markCompleted(index, event) {
                 event.preventDefault();
-                completed.add(index);
-                review.delete(index);
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
                 saveStates();
                 applyClasses();
+
+                // Always open the link in new tab
                 window.open(event.target.href, '_blank');
             }
 
-            // Handle double-click to mark/unmark review
+            // Toggle review (purple) on double-click
             function handleDoubleClick(index) {
                 if (review.has(index)) {
-                    review.delete(index);
+                    review.delete(index); // toggle off
                 } else {
-                    review.add(index);
-                    completed.delete(index);
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
                 }
                 saveStates();
                 applyClasses();
@@ -500,17 +507,20 @@
                 localStorage.setItem('review', JSON.stringify([...review]));
             }
 
-            // Apply class styling
+            // Apply class styling (review > completed)
             function applyClasses() {
                 document.querySelectorAll('.card').forEach((card, i) => {
                     card.classList.remove('clicked', 'review');
-                    if (completed.has(i)) card.classList.add('clicked');
-                    if (review.has(i)) card.classList.add('review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
                 });
             }
         </script>
 
-        <!-- Reset Button -->
         <button onclick="resetHighlights()" class="reset-btn bottom">
             Reset Highlights
         </button>

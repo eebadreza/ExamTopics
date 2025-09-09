@@ -49,24 +49,27 @@ import time
 #     18: 5,
 # }
 
+
+
 # AZ-500
 topics = {
-    1: 42,
-    2: 123,
-    3: 69,
-    4: 125,
-    5: 75,
-    6: 31,
-    7: 14,
-    8: 3,
-    9: 3,
-    10: 2,
-    11: 4,
-    12: 3,
-    13: 5,
-    15: 1,
-    16: 1
+    1: 246,
 }
+#     2: 123,
+#     3: 69,
+#     4: 125,
+#     5: 75,
+#     6: 31,
+#     7: 14,
+#     8: 3,
+#     9: 3,
+#     10: 2,
+#     11: 4,
+#     12: 3,
+#     13: 5,
+#     15: 1,
+#     16: 1
+# }
 
 # AZ-700
 # topics = {
@@ -91,7 +94,8 @@ driver = webdriver.Firefox(service=service, options=options)
 with open("results.txt", "w") as file:
     for topic, max_qn in topics.items():
         for q_num in range(1, max_qn + 1):
-            query = f"AZ-500 topic {topic} Question {q_num} discussion site:examtopics.com"
+            # query = f"AZ-500 topic {topic} Question {q_num} discussion site:examtopics.com"
+            query = f"Examtopics AI-900 topic {topic} Question {q_num} discussion"
             print(f"\n🔍 Searching: Topic {topic} - Question {q_num}")
             driver.get(f"https://www.bing.com/search?q={query}")
 

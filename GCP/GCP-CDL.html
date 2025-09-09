@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AZ-500</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 3rem 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                width: 200px;
+                text-align: center;
+                transition: transform 0.2s;
+                cursor: pointer;
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card h3 {
+                margin: 0 0 1rem;
+                font-size: 1.2rem;
+            }
+
+            .card a {
+                text-decoration: none;
+                color: white;
+                background-color: #007bff;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .card a:hover {
+                background-color: #0056b3;
+            }
+
+            .clicked {
+                background-color: #00e676 !important; /* green */
+            }
+
+            .review {
+                background-color: #9c27b0 !important; /* purple */
+            }
+            .reset-btn {
+                position: fixed;
+                left: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 999;
+            }
+
+            .reset-btn.top {
+                top: 10px;
+            }
+
+            .reset-btn.bottom {
+                bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1
+            style="
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            "
+        >
+            Cloud Digital Leader – Practice Questions
+        </h1>
+
+        <script>
+            links = [
+                'https://www.examtopics.com/exams/google/cloud-digital-leader/view/',
+                'https://www.examtopics.com/discussions/google/view/68950-exam-cloud-digital-leader-topic-1-question-2-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68953-exam-cloud-digital-leader-topic-1-question-3-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68956-exam-cloud-digital-leader-topic-1-question-4-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68720-exam-cloud-digital-leader-topic-1-question-5-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68957-exam-cloud-digital-leader-topic-1-question-6-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79018-exam-cloud-digital-leader-topic-1-question-7-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69337-exam-cloud-digital-leader-topic-1-question-8-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69638-exam-cloud-digital-leader-topic-1-question-9-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69044-exam-cloud-digital-leader-topic-1-question-10-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68721-exam-cloud-digital-leader-topic-1-question-11-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70972-exam-cloud-digital-leader-topic-1-question-12-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70345-exam-cloud-digital-leader-topic-1-question-13-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79847-exam-cloud-digital-leader-topic-1-question-14-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69609-exam-cloud-digital-leader-topic-1-question-15-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70835-exam-cloud-digital-leader-topic-1-question-16-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69613-exam-cloud-digital-leader-topic-1-question-17-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69614-exam-cloud-digital-leader-topic-1-question-18-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69615-exam-cloud-digital-leader-topic-1-question-19-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69488-exam-cloud-digital-leader-topic-1-question-20-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69906-exam-cloud-digital-leader-topic-1-question-21-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69907-exam-cloud-digital-leader-topic-1-question-22-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68861-exam-cloud-digital-leader-topic-1-question-23-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69408-exam-cloud-digital-leader-topic-1-question-24-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68877-exam-cloud-digital-leader-topic-1-question-25-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68878-exam-cloud-digital-leader-topic-1-question-26-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69409-exam-cloud-digital-leader-topic-1-question-27-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68921-exam-cloud-digital-leader-topic-1-question-28-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68923-exam-cloud-digital-leader-topic-1-question-29-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69908-exam-cloud-digital-leader-topic-1-question-30-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70341-exam-cloud-digital-leader-topic-1-question-31-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68724-exam-cloud-digital-leader-topic-1-question-32-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69460-exam-cloud-digital-leader-topic-1-question-33-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69443-exam-cloud-digital-leader-topic-1-question-34-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79384-exam-cloud-digital-leader-topic-1-question-35-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69711-exam-cloud-digital-leader-topic-1-question-36-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69712-exam-cloud-digital-leader-topic-1-question-37-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69875-exam-cloud-digital-leader-topic-1-question-38-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68966-exam-cloud-digital-leader-topic-1-question-39-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69874-exam-cloud-digital-leader-topic-1-question-40-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69873-exam-cloud-digital-leader-topic-1-question-41-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68863-exam-cloud-digital-leader-topic-1-question-42-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70926-exam-cloud-digital-leader-topic-1-question-43-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70215-exam-cloud-digital-leader-topic-1-question-44-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70421-exam-cloud-digital-leader-topic-1-question-45-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70422-exam-cloud-digital-leader-topic-1-question-46-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68969-exam-cloud-digital-leader-topic-1-question-47-discussion/',
+                'https://www.examtopics.com/discussions/google/view/71207-exam-cloud-digital-leader-topic-1-question-48-discussion/',
+                'https://www.examtopics.com/discussions/google/view/82554-exam-cloud-digital-leader-topic-1-question-49-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68973-exam-cloud-digital-leader-topic-1-question-50-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68865-exam-cloud-digital-leader-topic-1-question-51-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69038-exam-cloud-digital-leader-topic-1-question-52-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68974-exam-cloud-digital-leader-topic-1-question-53-discussion/',
+                'https://www.examtopics.com/discussions/google/view/71034-exam-cloud-digital-leader-topic-1-question-54-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69040-exam-cloud-digital-leader-topic-1-question-55-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68940-exam-cloud-digital-leader-topic-1-question-56-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68975-exam-cloud-digital-leader-topic-1-question-57-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69506-exam-cloud-digital-leader-topic-1-question-58-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68866-exam-cloud-digital-leader-topic-1-question-59-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68944-exam-cloud-digital-leader-topic-1-question-60-discussion/',
+                'https://www.examtopics.com/discussions/google/view/68977-exam-cloud-digital-leader-topic-1-question-61-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69564-exam-cloud-digital-leader-topic-1-question-62-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70388-exam-cloud-digital-leader-topic-1-question-63-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70389-exam-cloud-digital-leader-topic-1-question-64-discussion/',
+                'https://www.examtopics.com/discussions/google/view/70080-exam-cloud-digital-leader-topic-1-question-65-discussion/',
+                'https://www.examtopics.com/discussions/google/view/69891-exam-cloud-digital-leader-topic-1-question-66-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78383-exam-cloud-digital-leader-topic-1-question-67-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78384-exam-cloud-digital-leader-topic-1-question-68-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78695-exam-cloud-digital-leader-topic-1-question-69-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78763-exam-cloud-digital-leader-topic-1-question-70-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78725-exam-cloud-digital-leader-topic-1-question-71-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78765-exam-cloud-digital-leader-topic-1-question-72-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78774-exam-cloud-digital-leader-topic-1-question-73-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78771-exam-cloud-digital-leader-topic-1-question-74-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78726-exam-cloud-digital-leader-topic-1-question-75-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79021-exam-cloud-digital-leader-topic-1-question-76-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79086-exam-cloud-digital-leader-topic-1-question-77-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79087-exam-cloud-digital-leader-topic-1-question-78-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79089-exam-cloud-digital-leader-topic-1-question-79-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79090-exam-cloud-digital-leader-topic-1-question-80-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79091-exam-cloud-digital-leader-topic-1-question-81-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79092-exam-cloud-digital-leader-topic-1-question-82-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79094-exam-cloud-digital-leader-topic-1-question-83-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79096-exam-cloud-digital-leader-topic-1-question-84-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80695-exam-cloud-digital-leader-topic-1-question-85-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78527-exam-cloud-digital-leader-topic-1-question-86-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79101-exam-cloud-digital-leader-topic-1-question-87-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79102-exam-cloud-digital-leader-topic-1-question-88-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79104-exam-cloud-digital-leader-topic-1-question-89-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79108-exam-cloud-digital-leader-topic-1-question-90-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79125-exam-cloud-digital-leader-topic-1-question-91-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79127-exam-cloud-digital-leader-topic-1-question-92-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78534-exam-cloud-digital-leader-topic-1-question-93-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78536-exam-cloud-digital-leader-topic-1-question-94-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78538-exam-cloud-digital-leader-topic-1-question-95-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79129-exam-cloud-digital-leader-topic-1-question-96-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79136-exam-cloud-digital-leader-topic-1-question-97-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79142-exam-cloud-digital-leader-topic-1-question-98-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79006-exam-cloud-digital-leader-topic-1-question-99-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79145-exam-cloud-digital-leader-topic-1-question-100-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79445-exam-cloud-digital-leader-topic-1-question-101-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79446-exam-cloud-digital-leader-topic-1-question-102-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79447-exam-cloud-digital-leader-topic-1-question-103-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79448-exam-cloud-digital-leader-topic-1-question-104-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79449-exam-cloud-digital-leader-topic-1-question-105-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79057-exam-cloud-digital-leader-topic-1-question-106-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79450-exam-cloud-digital-leader-topic-1-question-107-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79451-exam-cloud-digital-leader-topic-1-question-108-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79452-exam-cloud-digital-leader-topic-1-question-109-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79454-exam-cloud-digital-leader-topic-1-question-110-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79476-exam-cloud-digital-leader-topic-1-question-111-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79479-exam-cloud-digital-leader-topic-1-question-112-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79481-exam-cloud-digital-leader-topic-1-question-113-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79486-exam-cloud-digital-leader-topic-1-question-114-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79487-exam-cloud-digital-leader-topic-1-question-115-discussion/',
+                'https://www.examtopics.com/discussions/google/view/85933-exam-cloud-digital-leader-topic-1-question-116-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80104-exam-cloud-digital-leader-topic-1-question-117-discussion/',
+                'https://www.examtopics.com/discussions/google/view/82054-exam-cloud-digital-leader-topic-1-question-118-discussion/',
+                'https://www.examtopics.com/discussions/google/view/82017-exam-cloud-digital-leader-topic-1-question-119-discussion/',
+                'https://www.examtopics.com/discussions/google/view/84110-exam-cloud-digital-leader-topic-1-question-120-discussion/',
+                'https://www.examtopics.com/discussions/google/view/83994-exam-cloud-digital-leader-topic-1-question-121-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79739-exam-cloud-digital-leader-topic-1-question-122-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79741-exam-cloud-digital-leader-topic-1-question-123-discussion/',
+                'https://www.examtopics.com/discussions/google/view/86417-exam-cloud-digital-leader-topic-1-question-124-discussion/',
+                'https://www.examtopics.com/discussions/google/view/84112-exam-cloud-digital-leader-topic-1-question-125-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79746-exam-cloud-digital-leader-topic-1-question-126-discussion/',
+                'https://www.examtopics.com/discussions/google/view/84215-exam-cloud-digital-leader-topic-1-question-127-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81621-exam-cloud-digital-leader-topic-1-question-128-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79748-exam-cloud-digital-leader-topic-1-question-129-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81632-exam-cloud-digital-leader-topic-1-question-130-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80318-exam-cloud-digital-leader-topic-1-question-131-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81642-exam-cloud-digital-leader-topic-1-question-132-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79187-exam-cloud-digital-leader-topic-1-question-133-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81648-exam-cloud-digital-leader-topic-1-question-134-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79185-exam-cloud-digital-leader-topic-1-question-135-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79183-exam-cloud-digital-leader-topic-1-question-136-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81650-exam-cloud-digital-leader-topic-1-question-137-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80327-exam-cloud-digital-leader-topic-1-question-138-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81651-exam-cloud-digital-leader-topic-1-question-139-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80329-exam-cloud-digital-leader-topic-1-question-140-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81652-exam-cloud-digital-leader-topic-1-question-141-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81654-exam-cloud-digital-leader-topic-1-question-142-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81655-exam-cloud-digital-leader-topic-1-question-143-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81656-exam-cloud-digital-leader-topic-1-question-144-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80331-exam-cloud-digital-leader-topic-1-question-145-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80333-exam-cloud-digital-leader-topic-1-question-146-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80335-exam-cloud-digital-leader-topic-1-question-147-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80697-exam-cloud-digital-leader-topic-1-question-148-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80337-exam-cloud-digital-leader-topic-1-question-149-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80342-exam-cloud-digital-leader-topic-1-question-150-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80797-exam-cloud-digital-leader-topic-1-question-151-discussion/',
+                'https://www.examtopics.com/discussions/google/view/81729-exam-cloud-digital-leader-topic-1-question-152-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78666-exam-cloud-digital-leader-topic-1-question-153-discussion/',
+                'https://www.examtopics.com/discussions/google/view/80223-exam-cloud-digital-leader-topic-1-question-154-discussion/',
+                'https://www.examtopics.com/discussions/google/view/79162-exam-cloud-digital-leader-topic-1-question-155-discussion/',
+                'https://www.examtopics.com/discussions/google/view/78667-exam-cloud-digital-leader-topic-1-question-156-discussion/',
+                'https://www.examtopics.com/discussions/google/view/94365-exam-cloud-digital-leader-topic-1-question-157-discussion/',
+                'https://www.examtopics.com/discussions/google/view/94367-exam-cloud-digital-leader-topic-1-question-158-discussion/',
+                'https://www.examtopics.com/discussions/google/view/94369-exam-cloud-digital-leader-topic-1-question-159-discussion/',
+                'https://www.examtopics.com/discussions/google/view/94371-exam-cloud-digital-leader-topic-1-question-160-discussion/',
+                'https://www.examtopics.com/discussions/google/view/97652-exam-cloud-digital-leader-topic-1-question-161-discussion/',
+                'https://www.examtopics.com/discussions/google/view/94373-exam-cloud-digital-leader-topic-1-question-162-discussion/',
+                'https://www.examtopics.com/discussions/google/view/102650-exam-cloud-digital-leader-topic-1-question-163-discussion/',
+                'https://www.examtopics.com/discussions/google/view/94374-exam-cloud-digital-leader-topic-1-question-164-discussion/',
+                'https://www.examtopics.com/discussions/google/view/97529-exam-cloud-digital-leader-topic-1-question-165-discussion/',
+                'https://www.examtopics.com/discussions/google/view/102652-exam-cloud-digital-leader-topic-1-question-166-discussion/',
+                'https://www.examtopics.com/discussions/google/view/100419-exam-cloud-digital-leader-topic-1-question-167-discussion/',
+                'https://www.examtopics.com/discussions/google/view/98260-exam-cloud-digital-leader-topic-1-question-168-discussion/',
+                'https://www.examtopics.com/discussions/google/view/102654-exam-cloud-digital-leader-topic-1-question-169-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95019-exam-cloud-digital-leader-topic-1-question-170-discussion/',
+                'https://www.examtopics.com/discussions/google/view/96612-exam-cloud-digital-leader-topic-1-question-171-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95847-exam-cloud-digital-leader-topic-1-question-172-discussion/',
+                'https://www.examtopics.com/discussions/google/view/100421-exam-cloud-digital-leader-topic-1-question-173-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95849-exam-cloud-digital-leader-topic-1-question-174-discussion/',
+                'https://www.examtopics.com/discussions/google/view/96616-exam-cloud-digital-leader-topic-1-question-175-discussion/',
+                'https://www.examtopics.com/discussions/google/view/97062-exam-cloud-digital-leader-topic-1-question-176-discussion/',
+                'https://www.examtopics.com/discussions/google/view/97661-exam-cloud-digital-leader-topic-1-question-177-discussion/',
+                'https://www.examtopics.com/discussions/google/view/97447-exam-cloud-digital-leader-topic-1-question-178-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95166-exam-cloud-digital-leader-topic-1-question-179-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95021-exam-cloud-digital-leader-topic-1-question-180-discussion/',
+                'https://www.examtopics.com/discussions/google/view/102657-exam-cloud-digital-leader-topic-1-question-181-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95022-exam-cloud-digital-leader-topic-1-question-182-discussion/',
+                'https://www.examtopics.com/discussions/google/view/100428-exam-cloud-digital-leader-topic-1-question-183-discussion/',
+                'https://www.examtopics.com/discussions/google/view/100429-exam-cloud-digital-leader-topic-1-question-184-discussion/',
+                'https://www.examtopics.com/discussions/google/view/98910-exam-cloud-digital-leader-topic-1-question-185-discussion/',
+                'https://www.examtopics.com/discussions/google/view/117538-exam-cloud-digital-leader-topic-1-question-186-discussion/',
+                'https://www.examtopics.com/discussions/google/view/98396-exam-cloud-digital-leader-topic-1-question-187-discussion/',
+                'https://www.examtopics.com/discussions/google/view/96884-exam-cloud-digital-leader-topic-1-question-188-discussion/',
+                'https://www.examtopics.com/discussions/google/view/95168-exam-cloud-digital-leader-topic-1-question-189-discussion/',
+                'https://www.examtopics.com/discussions/google/view/100432-exam-cloud-digital-leader-topic-1-question-190-discussion/',
+                'https://www.examtopics.com/discussions/google/view/102861-exam-cloud-digital-leader-topic-1-question-191-discussion/',
+                'https://www.examtopics.com/discussions/google/view/117540-exam-cloud-digital-leader-topic-1-question-192-discussion/',
+                'https://www.examtopics.com/discussions/google/view/140347-exam-cloud-digital-leader-topic-1-question-193-discussion/',
+                'https://www.examtopics.com/discussions/google/view/144402-exam-cloud-digital-leader-topic-1-question-194-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139761-exam-cloud-digital-leader-topic-1-question-195-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139762-exam-cloud-digital-leader-topic-1-question-196-discussion/',
+                'https://www.examtopics.com/discussions/google/view/143895-exam-cloud-digital-leader-topic-1-question-197-discussion/',
+                'https://www.examtopics.com/discussions/google/view/141949-exam-cloud-digital-leader-topic-1-question-198-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139763-exam-cloud-digital-leader-topic-1-question-199-discussion/',
+                'https://www.examtopics.com/discussions/google/view/144270-exam-cloud-digital-leader-topic-1-question-200-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139764-exam-cloud-digital-leader-topic-1-question-201-discussion/',
+                'https://www.examtopics.com/discussions/google/view/144271-exam-cloud-digital-leader-topic-1-question-202-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139765-exam-cloud-digital-leader-topic-1-question-203-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139766-exam-cloud-digital-leader-topic-1-question-204-discussion/',
+                'https://www.examtopics.com/discussions/google/view/144651-exam-cloud-digital-leader-topic-1-question-205-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139767-exam-cloud-digital-leader-topic-1-question-206-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139768-exam-cloud-digital-leader-topic-1-question-207-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139769-exam-cloud-digital-leader-topic-1-question-208-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139770-exam-cloud-digital-leader-topic-1-question-209-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139771-exam-cloud-digital-leader-topic-1-question-210-discussion/',
+                'https://www.examtopics.com/discussions/google/view/153885-exam-cloud-digital-leader-topic-1-question-211-discussion/',
+                'https://www.examtopics.com/discussions/google/view/153886-exam-cloud-digital-leader-topic-1-question-212-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139772-exam-cloud-digital-leader-topic-1-question-213-discussion/',
+                'https://www.examtopics.com/discussions/google/view/153888-exam-cloud-digital-leader-topic-1-question-214-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139773-exam-cloud-digital-leader-topic-1-question-215-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139774-exam-cloud-digital-leader-topic-1-question-216-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139775-exam-cloud-digital-leader-topic-1-question-217-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139776-exam-cloud-digital-leader-topic-1-question-218-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139777-exam-cloud-digital-leader-topic-1-question-219-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139778-exam-cloud-digital-leader-topic-1-question-220-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139923-exam-cloud-digital-leader-topic-1-question-221-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139780-exam-cloud-digital-leader-topic-1-question-222-discussion/',
+                'https://www.examtopics.com/discussions/amazon/view/154524-exam-cloud-digital-leader-topic-1-question-223-discussion/',
+                'https://www.examtopics.com/discussions/amazon/view/154525-exam-cloud-digital-leader-topic-1-question-224-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154526-exam-cloud-digital-leader-topic-1-question-225-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139781-exam-cloud-digital-leader-topic-1-question-226-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139782-exam-cloud-digital-leader-topic-1-question-227-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154527-exam-cloud-digital-leader-topic-1-question-228-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139784-exam-cloud-digital-leader-topic-1-question-229-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139785-exam-cloud-digital-leader-topic-1-question-230-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154621-exam-cloud-digital-leader-topic-1-question-231-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154623-exam-cloud-digital-leader-topic-1-question-232-discussion/',
+                'https://www.examtopics.com/discussions/google/view/141821-exam-cloud-digital-leader-topic-1-question-233-discussion/',
+                'https://www.examtopics.com/discussions/google/view/142055-exam-cloud-digital-leader-topic-1-question-234-discussion/',
+                'https://www.examtopics.com/discussions/google/view/148075-exam-cloud-digital-leader-topic-1-question-235-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139787-exam-cloud-digital-leader-topic-1-question-236-discussion/',
+                'https://www.examtopics.com/discussions/google/view/153851-exam-cloud-digital-leader-topic-1-question-237-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154626-exam-cloud-digital-leader-topic-1-question-238-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139788-exam-cloud-digital-leader-topic-1-question-239-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154627-exam-cloud-digital-leader-topic-1-question-240-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154703-exam-cloud-digital-leader-topic-1-question-241-discussion/',
+                'https://www.examtopics.com/discussions/google/view/139786-exam-cloud-digital-leader-topic-1-question-242-discussion/',
+                'https://www.examtopics.com/discussions/google/view/153784-exam-cloud-digital-leader-topic-1-question-243-discussion/',
+                'https://www.examtopics.com/discussions/google/view/147835-exam-cloud-digital-leader-topic-1-question-244-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154750-exam-cloud-digital-leader-topic-1-question-245-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154751-exam-cloud-digital-leader-topic-1-question-246-discussion/',
+                'https://www.examtopics.com/discussions/google/view/147834-exam-cloud-digital-leader-topic-1-question-247-discussion/',
+                'https://www.examtopics.com/discussions/google/view/147833-exam-cloud-digital-leader-topic-1-question-248-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154752-exam-cloud-digital-leader-topic-1-question-249-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154755-exam-cloud-digital-leader-topic-1-question-250-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154756-exam-cloud-digital-leader-topic-1-question-251-discussion/',
+                'https://www.examtopics.com/discussions/google/view/152894-exam-cloud-digital-leader-topic-1-question-252-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154757-exam-cloud-digital-leader-topic-1-question-253-discussion/',
+                'https://www.examtopics.com/discussions/google/view/147832-exam-cloud-digital-leader-topic-1-question-254-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154758-exam-cloud-digital-leader-topic-1-question-255-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154761-exam-cloud-digital-leader-topic-1-question-256-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154764-exam-cloud-digital-leader-topic-1-question-257-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154766-exam-cloud-digital-leader-topic-1-question-258-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154767-exam-cloud-digital-leader-topic-1-question-259-discussion/',
+                'https://www.examtopics.com/discussions/google/view/154769-exam-cloud-digital-leader-topic-1-question-260-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155094-exam-cloud-digital-leader-topic-1-question-261-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155095-exam-cloud-digital-leader-topic-1-question-262-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155096-exam-cloud-digital-leader-topic-1-question-263-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155097-exam-cloud-digital-leader-topic-1-question-264-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155109-exam-cloud-digital-leader-topic-1-question-265-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155114-exam-cloud-digital-leader-topic-1-question-266-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155115-exam-cloud-digital-leader-topic-1-question-267-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155117-exam-cloud-digital-leader-topic-1-question-268-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155120-exam-cloud-digital-leader-topic-1-question-269-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155121-exam-cloud-digital-leader-topic-1-question-270-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155125-exam-cloud-digital-leader-topic-1-question-271-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155126-exam-cloud-digital-leader-topic-1-question-272-discussion/',
+                'https://www.examtopics.com/discussions/google/view/145369-exam-cloud-digital-leader-topic-1-question-273-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155140-exam-cloud-digital-leader-topic-1-question-274-discussion/',
+                'https://www.examtopics.com/discussions/google/view/146751-exam-cloud-digital-leader-topic-1-question-275-discussion/',
+                'https://www.examtopics.com/discussions/google/view/148374-exam-cloud-digital-leader-topic-1-question-276-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155172-exam-cloud-digital-leader-topic-1-question-277-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155174-exam-cloud-digital-leader-topic-1-question-278-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155176-exam-cloud-digital-leader-topic-1-question-279-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155179-exam-cloud-digital-leader-topic-1-question-280-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155181-exam-cloud-digital-leader-topic-1-question-281-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155182-exam-cloud-digital-leader-topic-1-question-282-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155184-exam-cloud-digital-leader-topic-1-question-283-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155185-exam-cloud-digital-leader-topic-1-question-284-discussion/',
+                'https://www.examtopics.com/discussions/google/view/155186-exam-cloud-digital-leader-topic-1-question-285-discussion/',
+                'https://www.examtopics.com/discussions/google/view/153752-exam-cloud-digital-leader-topic-1-question-286-discussion/',
+                'https://www.examtopics.com/discussions/google/view/169087-exam-cloud-digital-leader-topic-1-question-287-discussion/',
+                'https://www.examtopics.com/discussions/google/view/305848-exam-cloud-digital-leader-topic-1-question-288-discussion/',
+                'https://www.examtopics.com/discussions/google/view/303015-exam-cloud-digital-leader-topic-1-question-289-discussion/',
+            ];
+
+            const completed = new Set(
+                JSON.parse(localStorage.getItem('completed') || '[]')
+            );
+            const review = new Set(
+                JSON.parse(localStorage.getItem('review') || '[]')
+            );
+
+            // Create cards
+            links.forEach((link, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.ondblclick = () => handleDoubleClick(i);
+                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+                    i + 1
+                }</a>`;
+                document.body.appendChild(card);
+            });
+
+            // On load
+            window.onload = () => {
+                applyClasses();
+            };
+
+            // Mark as completed (green)
+            function markCompleted(index, event) {
+                event.preventDefault();
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
+                saveStates();
+                applyClasses();
+
+                // Always open the link in new tab
+                window.open(event.target.href, '_blank');
+            }
+
+            // Toggle review (purple) on double-click
+            function handleDoubleClick(index) {
+                if (review.has(index)) {
+                    review.delete(index); // toggle off
+                } else {
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
+                }
+                saveStates();
+                applyClasses();
+            }
+
+            // Reset all highlights
+            function resetHighlights() {
+                localStorage.removeItem('completed');
+                localStorage.removeItem('review');
+                completed.clear();
+                review.clear();
+                applyClasses();
+            }
+
+            // Save states to localStorage
+            function saveStates() {
+                localStorage.setItem(
+                    'completed',
+                    JSON.stringify([...completed])
+                );
+                localStorage.setItem('review', JSON.stringify([...review]));
+            }
+
+            // Apply class styling (review > completed)
+            function applyClasses() {
+                document.querySelectorAll('.card').forEach((card, i) => {
+                    card.classList.remove('clicked', 'review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
+                });
+            }
+        </script>
+
+        <button onclick="resetHighlights()" class="reset-btn bottom">
+            Reset Highlights
+        </button>
+    </body>
+</html>

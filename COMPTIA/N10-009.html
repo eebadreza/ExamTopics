@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AZ-500</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 3rem 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                width: 200px;
+                text-align: center;
+                transition: transform 0.2s;
+                cursor: pointer;
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card h3 {
+                margin: 0 0 1rem;
+                font-size: 1.2rem;
+            }
+
+            .card a {
+                text-decoration: none;
+                color: white;
+                background-color: #007bff;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .card a:hover {
+                background-color: #0056b3;
+            }
+
+            .clicked {
+                background-color: #00e676 !important; /* green */
+            }
+
+            .review {
+                background-color: #9c27b0 !important; /* purple */
+            }
+            .reset-btn {
+                position: fixed;
+                left: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 999;
+            }
+
+            .reset-btn.top {
+                top: 10px;
+            }
+
+            .reset-btn.bottom {
+                bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1
+            style="
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            "
+        >
+            CompTIA Network+ Associate – Practice Questions
+        </h1>
+
+        <script>
+            links = [
+                'https://www.examtopics.com/discussions/comptia/view/150600-exam-n10-009-topic-1-question-1-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150601-exam-n10-009-topic-1-question-2-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150602-exam-n10-009-topic-1-question-3-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150374-exam-n10-009-topic-1-question-4-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155493-exam-n10-009-topic-1-question-5-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151334-exam-n10-009-topic-1-question-6-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150283-exam-n10-009-topic-1-question-7-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150256-exam-n10-009-topic-1-question-8-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150284-exam-n10-009-topic-1-question-9-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150285-exam-n10-009-topic-1-question-10-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150286-exam-n10-009-topic-1-question-11-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150303-exam-n10-009-topic-1-question-12-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150671-exam-n10-009-topic-1-question-13-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150287-exam-n10-009-topic-1-question-14-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150288-exam-n10-009-topic-1-question-15-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150289-exam-n10-009-topic-1-question-16-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150290-exam-n10-009-topic-1-question-17-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150293-exam-n10-009-topic-1-question-18-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150294-exam-n10-009-topic-1-question-19-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150295-exam-n10-009-topic-1-question-20-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150296-exam-n10-009-topic-1-question-21-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150297-exam-n10-009-topic-1-question-22-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150298-exam-n10-009-topic-1-question-23-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150299-exam-n10-009-topic-1-question-24-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150300-exam-n10-009-topic-1-question-25-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150400-exam-n10-009-topic-1-question-26-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150459-exam-n10-009-topic-1-question-27-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150460-exam-n10-009-topic-1-question-28-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150461-exam-n10-009-topic-1-question-29-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150462-exam-n10-009-topic-1-question-30-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150463-exam-n10-009-topic-1-question-31-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150464-exam-n10-009-topic-1-question-32-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150465-exam-n10-009-topic-1-question-33-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150466-exam-n10-009-topic-1-question-34-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150467-exam-n10-009-topic-1-question-35-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150468-exam-n10-009-topic-1-question-36-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151560-exam-n10-009-topic-1-question-37-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151732-exam-n10-009-topic-1-question-38-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150731-exam-n10-009-topic-1-question-39-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152904-exam-n10-009-topic-1-question-40-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150921-exam-n10-009-topic-1-question-41-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150922-exam-n10-009-topic-1-question-42-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153041-exam-n10-009-topic-1-question-43-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152211-exam-n10-009-topic-1-question-44-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153690-exam-n10-009-topic-1-question-45-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150730-exam-n10-009-topic-1-question-46-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151734-exam-n10-009-topic-1-question-47-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154103-exam-n10-009-topic-1-question-48-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153040-exam-n10-009-topic-1-question-49-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150923-exam-n10-009-topic-1-question-50-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151699-exam-n10-009-topic-1-question-51-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153587-exam-n10-009-topic-1-question-52-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153506-exam-n10-009-topic-1-question-53-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153507-exam-n10-009-topic-1-question-54-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153336-exam-n10-009-topic-1-question-55-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154477-exam-n10-009-topic-1-question-56-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152874-exam-n10-009-topic-1-question-57-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152868-exam-n10-009-topic-1-question-58-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154478-exam-n10-009-topic-1-question-59-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152553-exam-n10-009-topic-1-question-60-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153728-exam-n10-009-topic-1-question-61-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153508-exam-n10-009-topic-1-question-62-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152503-exam-n10-009-topic-1-question-63-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153729-exam-n10-009-topic-1-question-64-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152890-exam-n10-009-topic-1-question-65-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151209-exam-n10-009-topic-1-question-66-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153730-exam-n10-009-topic-1-question-67-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153509-exam-n10-009-topic-1-question-68-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150725-exam-n10-009-topic-1-question-69-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153510-exam-n10-009-topic-1-question-70-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152357-exam-n10-009-topic-1-question-71-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152358-exam-n10-009-topic-1-question-72-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152359-exam-n10-009-topic-1-question-73-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152360-exam-n10-009-topic-1-question-74-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152361-exam-n10-009-topic-1-question-75-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152362-exam-n10-009-topic-1-question-76-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150629-exam-n10-009-topic-1-question-77-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153734-exam-n10-009-topic-1-question-78-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152363-exam-n10-009-topic-1-question-79-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152364-exam-n10-009-topic-1-question-80-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152365-exam-n10-009-topic-1-question-81-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152366-exam-n10-009-topic-1-question-82-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152085-exam-n10-009-topic-1-question-83-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152367-exam-n10-009-topic-1-question-84-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152368-exam-n10-009-topic-1-question-85-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152369-exam-n10-009-topic-1-question-86-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152370-exam-n10-009-topic-1-question-87-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152371-exam-n10-009-topic-1-question-88-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152055-exam-n10-009-topic-1-question-89-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152372-exam-n10-009-topic-1-question-90-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152373-exam-n10-009-topic-1-question-91-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152374-exam-n10-009-topic-1-question-92-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152375-exam-n10-009-topic-1-question-93-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152376-exam-n10-009-topic-1-question-94-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152377-exam-n10-009-topic-1-question-95-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152378-exam-n10-009-topic-1-question-96-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151557-exam-n10-009-topic-1-question-97-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152379-exam-n10-009-topic-1-question-98-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152380-exam-n10-009-topic-1-question-99-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/152381-exam-n10-009-topic-1-question-100-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153895-exam-n10-009-topic-1-question-101-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153967-exam-n10-009-topic-1-question-102-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153968-exam-n10-009-topic-1-question-103-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153970-exam-n10-009-topic-1-question-104-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150874-exam-n10-009-topic-1-question-105-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153971-exam-n10-009-topic-1-question-106-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153525-exam-n10-009-topic-1-question-107-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153972-exam-n10-009-topic-1-question-108-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153526-exam-n10-009-topic-1-question-109-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153527-exam-n10-009-topic-1-question-110-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153973-exam-n10-009-topic-1-question-111-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153974-exam-n10-009-topic-1-question-112-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153975-exam-n10-009-topic-1-question-113-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153245-exam-n10-009-topic-1-question-114-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153977-exam-n10-009-topic-1-question-115-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151289-exam-n10-009-topic-1-question-116-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153978-exam-n10-009-topic-1-question-117-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153979-exam-n10-009-topic-1-question-118-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153660-exam-n10-009-topic-1-question-119-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153981-exam-n10-009-topic-1-question-120-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153580-exam-n10-009-topic-1-question-121-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151649-exam-n10-009-topic-1-question-122-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153581-exam-n10-009-topic-1-question-123-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150669-exam-n10-009-topic-1-question-124-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153986-exam-n10-009-topic-1-question-125-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153661-exam-n10-009-topic-1-question-126-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153582-exam-n10-009-topic-1-question-127-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151737-exam-n10-009-topic-1-question-128-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153990-exam-n10-009-topic-1-question-129-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153991-exam-n10-009-topic-1-question-130-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153662-exam-n10-009-topic-1-question-131-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153663-exam-n10-009-topic-1-question-132-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153664-exam-n10-009-topic-1-question-133-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153992-exam-n10-009-topic-1-question-134-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153993-exam-n10-009-topic-1-question-135-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153665-exam-n10-009-topic-1-question-136-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153666-exam-n10-009-topic-1-question-137-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153994-exam-n10-009-topic-1-question-138-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153995-exam-n10-009-topic-1-question-139-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153667-exam-n10-009-topic-1-question-140-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153668-exam-n10-009-topic-1-question-141-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153996-exam-n10-009-topic-1-question-142-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153997-exam-n10-009-topic-1-question-143-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153670-exam-n10-009-topic-1-question-144-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153998-exam-n10-009-topic-1-question-145-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153671-exam-n10-009-topic-1-question-146-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153999-exam-n10-009-topic-1-question-147-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153672-exam-n10-009-topic-1-question-148-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154000-exam-n10-009-topic-1-question-149-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153673-exam-n10-009-topic-1-question-150-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153674-exam-n10-009-topic-1-question-151-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154517-exam-n10-009-topic-1-question-152-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154029-exam-n10-009-topic-1-question-153-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153675-exam-n10-009-topic-1-question-154-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154030-exam-n10-009-topic-1-question-155-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151313-exam-n10-009-topic-1-question-156-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151771-exam-n10-009-topic-1-question-157-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/151577-exam-n10-009-topic-1-question-158-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/150917-exam-n10-009-topic-1-question-159-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154031-exam-n10-009-topic-1-question-160-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153676-exam-n10-009-topic-1-question-161-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153677-exam-n10-009-topic-1-question-162-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153678-exam-n10-009-topic-1-question-163-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153679-exam-n10-009-topic-1-question-164-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154032-exam-n10-009-topic-1-question-165-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154033-exam-n10-009-topic-1-question-166-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153680-exam-n10-009-topic-1-question-167-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154034-exam-n10-009-topic-1-question-168-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153681-exam-n10-009-topic-1-question-169-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154035-exam-n10-009-topic-1-question-170-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153310-exam-n10-009-topic-1-question-171-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/154036-exam-n10-009-topic-1-question-172-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153682-exam-n10-009-topic-1-question-173-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153683-exam-n10-009-topic-1-question-174-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153684-exam-n10-009-topic-1-question-175-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/153584-exam-n10-009-topic-1-question-176-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155878-exam-n10-009-topic-1-question-177-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155879-exam-n10-009-topic-1-question-178-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156260-exam-n10-009-topic-1-question-179-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156024-exam-n10-009-topic-1-question-180-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155880-exam-n10-009-topic-1-question-181-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155881-exam-n10-009-topic-1-question-182-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155882-exam-n10-009-topic-1-question-183-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155883-exam-n10-009-topic-1-question-184-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155884-exam-n10-009-topic-1-question-185-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156731-exam-n10-009-topic-1-question-186-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156576-exam-n10-009-topic-1-question-187-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169553-exam-n10-009-topic-1-question-188-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156732-exam-n10-009-topic-1-question-189-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156263-exam-n10-009-topic-1-question-190-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156264-exam-n10-009-topic-1-question-191-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/157441-exam-n10-009-topic-1-question-192-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156716-exam-n10-009-topic-1-question-193-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156265-exam-n10-009-topic-1-question-194-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169561-exam-n10-009-topic-1-question-195-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155885-exam-n10-009-topic-1-question-196-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156310-exam-n10-009-topic-1-question-197-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156978-exam-n10-009-topic-1-question-198-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169566-exam-n10-009-topic-1-question-199-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155886-exam-n10-009-topic-1-question-200-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155887-exam-n10-009-topic-1-question-201-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156271-exam-n10-009-topic-1-question-202-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155888-exam-n10-009-topic-1-question-203-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155889-exam-n10-009-topic-1-question-204-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155890-exam-n10-009-topic-1-question-205-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155891-exam-n10-009-topic-1-question-206-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155892-exam-n10-009-topic-1-question-207-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155893-exam-n10-009-topic-1-question-208-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155894-exam-n10-009-topic-1-question-209-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155895-exam-n10-009-topic-1-question-210-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155896-exam-n10-009-topic-1-question-211-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155897-exam-n10-009-topic-1-question-212-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155898-exam-n10-009-topic-1-question-213-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156320-exam-n10-009-topic-1-question-214-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155899-exam-n10-009-topic-1-question-215-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155900-exam-n10-009-topic-1-question-216-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155901-exam-n10-009-topic-1-question-217-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155902-exam-n10-009-topic-1-question-218-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155903-exam-n10-009-topic-1-question-219-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155904-exam-n10-009-topic-1-question-220-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155905-exam-n10-009-topic-1-question-221-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155906-exam-n10-009-topic-1-question-222-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155907-exam-n10-009-topic-1-question-223-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155908-exam-n10-009-topic-1-question-224-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/155909-exam-n10-009-topic-1-question-225-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/156980-exam-n10-009-topic-1-question-226-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169705-exam-n10-009-topic-1-question-227-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169628-exam-n10-009-topic-1-question-228-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169627-exam-n10-009-topic-1-question-229-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169629-exam-n10-009-topic-1-question-230-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303598-exam-n10-009-topic-1-question-231-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168195-exam-n10-009-topic-1-question-232-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/302543-exam-n10-009-topic-1-question-233-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169614-exam-n10-009-topic-1-question-234-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303024-exam-n10-009-topic-1-question-235-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169630-exam-n10-009-topic-1-question-236-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168839-exam-n10-009-topic-1-question-237-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169631-exam-n10-009-topic-1-question-238-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169632-exam-n10-009-topic-1-question-239-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169634-exam-n10-009-topic-1-question-240-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169635-exam-n10-009-topic-1-question-241-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169636-exam-n10-009-topic-1-question-242-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169224-exam-n10-009-topic-1-question-243-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169637-exam-n10-009-topic-1-question-244-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168175-exam-n10-009-topic-1-question-245-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169638-exam-n10-009-topic-1-question-246-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169225-exam-n10-009-topic-1-question-247-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303142-exam-n10-009-topic-1-question-248-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169639-exam-n10-009-topic-1-question-249-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168174-exam-n10-009-topic-1-question-250-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168177-exam-n10-009-topic-1-question-251-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168178-exam-n10-009-topic-1-question-252-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169089-exam-n10-009-topic-1-question-253-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169090-exam-n10-009-topic-1-question-254-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169641-exam-n10-009-topic-1-question-255-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169091-exam-n10-009-topic-1-question-256-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169092-exam-n10-009-topic-1-question-257-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169093-exam-n10-009-topic-1-question-258-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169094-exam-n10-009-topic-1-question-259-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168180-exam-n10-009-topic-1-question-260-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169095-exam-n10-009-topic-1-question-261-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169096-exam-n10-009-topic-1-question-262-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168181-exam-n10-009-topic-1-question-263-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169097-exam-n10-009-topic-1-question-264-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169642-exam-n10-009-topic-1-question-265-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169098-exam-n10-009-topic-1-question-266-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169643-exam-n10-009-topic-1-question-267-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169644-exam-n10-009-topic-1-question-268-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169645-exam-n10-009-topic-1-question-269-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169099-exam-n10-009-topic-1-question-270-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169100-exam-n10-009-topic-1-question-271-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169101-exam-n10-009-topic-1-question-272-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169102-exam-n10-009-topic-1-question-273-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/169103-exam-n10-009-topic-1-question-274-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/168183-exam-n10-009-topic-1-question-275-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304970-exam-n10-009-topic-1-question-276-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303337-exam-n10-009-topic-1-question-277-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303379-exam-n10-009-topic-1-question-278-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303380-exam-n10-009-topic-1-question-279-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303381-exam-n10-009-topic-1-question-280-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303382-exam-n10-009-topic-1-question-281-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303383-exam-n10-009-topic-1-question-282-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303384-exam-n10-009-topic-1-question-283-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303385-exam-n10-009-topic-1-question-284-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303358-exam-n10-009-topic-1-question-285-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303434-exam-n10-009-topic-1-question-286-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303433-exam-n10-009-topic-1-question-287-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305935-exam-n10-009-topic-1-question-288-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/307457-exam-n10-009-topic-1-question-289-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303328-exam-n10-009-topic-1-question-290-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311822-exam-n10-009-topic-1-question-298-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303437-exam-n10-009-topic-1-question-292-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303438-exam-n10-009-topic-1-question-293-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303439-exam-n10-009-topic-1-question-294-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303440-exam-n10-009-topic-1-question-295-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303441-exam-n10-009-topic-1-question-296-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311821-exam-n10-009-topic-1-question-297-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311822-exam-n10-009-topic-1-question-298-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303332-exam-n10-009-topic-1-question-299-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303443-exam-n10-009-topic-1-question-300-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303445-exam-n10-009-topic-1-question-301-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303446-exam-n10-009-topic-1-question-302-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303321-exam-n10-009-topic-1-question-303-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303448-exam-n10-009-topic-1-question-304-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303450-exam-n10-009-topic-1-question-305-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303452-exam-n10-009-topic-1-question-306-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303453-exam-n10-009-topic-1-question-307-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303454-exam-n10-009-topic-1-question-308-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/307184-exam-n10-009-topic-1-question-309-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304072-exam-n10-009-topic-1-question-310-discussion/',
+                'https://www.examtopics.com/exams/comptia/n10-009/view/32/',
+                'https://www.examtopics.com/discussions/comptia/view/311823-exam-n10-009-topic-1-question-312-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311824-exam-n10-009-topic-1-question-313-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311825-exam-n10-009-topic-1-question-314-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303456-exam-n10-009-topic-1-question-315-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311826-exam-n10-009-topic-1-question-316-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304925-exam-n10-009-topic-1-question-317-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311827-exam-n10-009-topic-1-question-318-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/307530-exam-n10-009-topic-1-question-319-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303490-exam-n10-009-topic-1-question-320-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303636-exam-n10-009-topic-1-question-321-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303635-exam-n10-009-topic-1-question-322-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303634-exam-n10-009-topic-1-question-323-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311828-exam-n10-009-topic-1-question-324-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303492-exam-n10-009-topic-1-question-325-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303575-exam-n10-009-topic-1-question-326-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303941-exam-n10-009-topic-1-question-327-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303574-exam-n10-009-topic-1-question-328-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311829-exam-n10-009-topic-1-question-329-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304277-exam-n10-009-topic-1-question-330-discussion/',
+                'https://www.examtopics.com/exams/comptia/n10-009/',
+                'https://www.examtopics.com/discussions/comptia/view/307163-exam-n10-009-topic-1-question-332-discussion/',
+                'https://www.examtopics.com/exams/comptia/n10-009/',
+                'https://www.examtopics.com/discussions/comptia/view/303366-exam-n10-009-topic-1-question-334-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303573-exam-n10-009-topic-1-question-335-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304924-exam-n10-009-topic-1-question-336-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303310-exam-n10-009-topic-1-question-337-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303312-exam-n10-009-topic-1-question-338-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303313-exam-n10-009-topic-1-question-339-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303518-exam-n10-009-topic-1-question-340-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311832-exam-n10-009-topic-1-question-341-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303572-exam-n10-009-topic-1-question-342-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311833-exam-n10-009-topic-1-question-343-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303305-exam-n10-009-topic-1-question-344-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303571-exam-n10-009-topic-1-question-345-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311834-exam-n10-009-topic-1-question-346-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311835-exam-n10-009-topic-1-question-347-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304641-exam-n10-009-topic-1-question-348-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303570-exam-n10-009-topic-1-question-349-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303569-exam-n10-009-topic-1-question-350-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303568-exam-n10-009-topic-1-question-351-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311836-exam-n10-009-topic-1-question-352-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303531-exam-n10-009-topic-1-question-353-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311837-exam-n10-009-topic-1-question-354-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303532-exam-n10-009-topic-1-question-355-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303993-exam-n10-009-topic-1-question-356-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303604-exam-n10-009-topic-1-question-357-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/307164-exam-n10-009-topic-1-question-358-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311838-exam-n10-009-topic-1-question-359-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305118-exam-n10-009-topic-1-question-360-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311839-exam-n10-009-topic-1-question-361-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303567-exam-n10-009-topic-1-question-362-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303566-exam-n10-009-topic-1-question-363-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303565-exam-n10-009-topic-1-question-364-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/311840-exam-n10-009-topic-1-question-365-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303564-exam-n10-009-topic-1-question-366-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303299-exam-n10-009-topic-1-question-367-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303300-exam-n10-009-topic-1-question-368-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303561-exam-n10-009-topic-1-question-369-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303560-exam-n10-009-topic-1-question-370-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303559-exam-n10-009-topic-1-question-371-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/308702-exam-n10-009-topic-1-question-372-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303515-exam-n10-009-topic-1-question-373-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303514-exam-n10-009-topic-1-question-374-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303513-exam-n10-009-topic-1-question-375-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303512-exam-n10-009-topic-1-question-376-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303511-exam-n10-009-topic-1-question-377-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303510-exam-n10-009-topic-1-question-378-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303509-exam-n10-009-topic-1-question-379-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304678-exam-n10-009-topic-1-question-380-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303501-exam-n10-009-topic-1-question-381-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303499-exam-n10-009-topic-1-question-382-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303498-exam-n10-009-topic-1-question-383-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303497-exam-n10-009-topic-1-question-384-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303496-exam-n10-009-topic-1-question-385-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303331-exam-n10-009-topic-1-question-386-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303495-exam-n10-009-topic-1-question-387-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303494-exam-n10-009-topic-1-question-388-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303493-exam-n10-009-topic-1-question-389-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303368-exam-n10-009-topic-1-question-390-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/303717-exam-n10-009-topic-1-question-391-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305281-exam-n10-009-topic-1-question-392-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304938-exam-n10-009-topic-1-question-393-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305282-exam-n10-009-topic-1-question-394-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305283-exam-n10-009-topic-1-question-395-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305284-exam-n10-009-topic-1-question-396-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305285-exam-n10-009-topic-1-question-397-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/307165-exam-n10-009-topic-1-question-398-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305286-exam-n10-009-topic-1-question-399-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305288-exam-n10-009-topic-1-question-400-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306452-exam-n10-009-topic-1-question-401-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304927-exam-n10-009-topic-1-question-402-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305299-exam-n10-009-topic-1-question-403-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305301-exam-n10-009-topic-1-question-404-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305304-exam-n10-009-topic-1-question-405-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305305-exam-n10-009-topic-1-question-406-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305307-exam-n10-009-topic-1-question-407-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305308-exam-n10-009-topic-1-question-408-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305309-exam-n10-009-topic-1-question-409-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305310-exam-n10-009-topic-1-question-410-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305311-exam-n10-009-topic-1-question-411-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305312-exam-n10-009-topic-1-question-412-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305315-exam-n10-009-topic-1-question-413-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305091-exam-n10-009-topic-1-question-414-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305316-exam-n10-009-topic-1-question-415-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305318-exam-n10-009-topic-1-question-416-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305320-exam-n10-009-topic-1-question-417-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305321-exam-n10-009-topic-1-question-418-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305322-exam-n10-009-topic-1-question-419-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305323-exam-n10-009-topic-1-question-420-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305324-exam-n10-009-topic-1-question-421-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/305325-exam-n10-009-topic-1-question-422-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/304617-exam-n10-009-topic-1-question-423-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306650-exam-n10-009-topic-1-question-424-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306645-exam-n10-009-topic-1-question-425-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306640-exam-n10-009-topic-1-question-426-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306636-exam-n10-009-topic-1-question-427-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306700-exam-n10-009-topic-1-question-428-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306631-exam-n10-009-topic-1-question-429-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306696-exam-n10-009-topic-1-question-430-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306634-exam-n10-009-topic-1-question-431-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306637-exam-n10-009-topic-1-question-432-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306625-exam-n10-009-topic-1-question-433-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306694-exam-n10-009-topic-1-question-434-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306643-exam-n10-009-topic-1-question-435-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306651-exam-n10-009-topic-1-question-436-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306699-exam-n10-009-topic-1-question-437-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306638-exam-n10-009-topic-1-question-438-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306697-exam-n10-009-topic-1-question-439-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306642-exam-n10-009-topic-1-question-440-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306629-exam-n10-009-topic-1-question-441-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306627-exam-n10-009-topic-1-question-442-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306649-exam-n10-009-topic-1-question-443-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306647-exam-n10-009-topic-1-question-444-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306624-exam-n10-009-topic-1-question-445-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306644-exam-n10-009-topic-1-question-446-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306695-exam-n10-009-topic-1-question-447-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306628-exam-n10-009-topic-1-question-448-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306698-exam-n10-009-topic-1-question-449-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306630-exam-n10-009-topic-1-question-450-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306701-exam-n10-009-topic-1-question-451-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306633-exam-n10-009-topic-1-question-452-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306646-exam-n10-009-topic-1-question-453-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306632-exam-n10-009-topic-1-question-454-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306641-exam-n10-009-topic-1-question-455-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306693-exam-n10-009-topic-1-question-456-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306626-exam-n10-009-topic-1-question-457-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306635-exam-n10-009-topic-1-question-458-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306648-exam-n10-009-topic-1-question-459-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306639-exam-n10-009-topic-1-question-460-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306652-exam-n10-009-topic-1-question-461-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/306702-exam-n10-009-topic-1-question-462-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310214-exam-n10-009-topic-1-question-463-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310208-exam-n10-009-topic-1-question-464-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310213-exam-n10-009-topic-1-question-465-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310211-exam-n10-009-topic-1-question-466-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310209-exam-n10-009-topic-1-question-467-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310216-exam-n10-009-topic-1-question-468-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310212-exam-n10-009-topic-1-question-469-discussion/',
+                'https://www.examtopics.com/discussions/comptia/view/310210-exam-n10-009-topic-1-question-470-discussion/',
+                'https://www.examtopics.com/exams/comptia/n10-009/',
+                'https://www.examtopics.com/discussions/comptia/view/309156-exam-n10-009-topic-1-question-472-discussion/',
+            ];
+
+            const completed = new Set(
+                JSON.parse(localStorage.getItem('completed') || '[]')
+            );
+            const review = new Set(
+                JSON.parse(localStorage.getItem('review') || '[]')
+            );
+
+            // Create cards
+            links.forEach((link, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.ondblclick = () => handleDoubleClick(i);
+                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+                    i + 1
+                }</a>`;
+                document.body.appendChild(card);
+            });
+
+            // On load
+            window.onload = () => {
+                applyClasses();
+            };
+
+            // Mark as completed (green)
+            function markCompleted(index, event) {
+                event.preventDefault();
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
+                saveStates();
+                applyClasses();
+
+                // Always open the link in new tab
+                window.open(event.target.href, '_blank');
+            }
+
+            // Toggle review (purple) on double-click
+            function handleDoubleClick(index) {
+                if (review.has(index)) {
+                    review.delete(index); // toggle off
+                } else {
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
+                }
+                saveStates();
+                applyClasses();
+            }
+
+            // Reset all highlights
+            function resetHighlights() {
+                localStorage.removeItem('completed');
+                localStorage.removeItem('review');
+                completed.clear();
+                review.clear();
+                applyClasses();
+            }
+
+            // Save states to localStorage
+            function saveStates() {
+                localStorage.setItem(
+                    'completed',
+                    JSON.stringify([...completed])
+                );
+                localStorage.setItem('review', JSON.stringify([...review]));
+            }
+
+            // Apply class styling (review > completed)
+            function applyClasses() {
+                document.querySelectorAll('.card').forEach((card, i) => {
+                    card.classList.remove('clicked', 'review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
+                });
+            }
+        </script>
+
+        <button onclick="resetHighlights()" class="reset-btn bottom">
+            Reset Highlights
+        </button>
+    </body>
+</html>

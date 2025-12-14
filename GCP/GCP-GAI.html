@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>GCP-GAL</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 3rem 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                width: 200px;
+                text-align: center;
+                transition: transform 0.2s;
+                cursor: pointer;
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card h3 {
+                margin: 0 0 1rem;
+                font-size: 1.2rem;
+            }
+
+            .card a {
+                text-decoration: none;
+                color: white;
+                background-color: #007bff;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .card a:hover {
+                background-color: #0056b3;
+            }
+
+            .clicked {
+                background-color: #00e676 !important; /* green */
+            }
+
+            .review {
+                background-color: #9c27b0 !important; /* purple */
+            }
+            .reset-btn {
+                position: fixed;
+                left: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 999;
+            }
+
+            .reset-btn.top {
+                top: 10px;
+            }
+
+            .reset-btn.bottom {
+                bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1
+            style="
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            "
+        >
+            Generative AI Leader – Practice Questions
+        </h1>
+
+        <script>
+            links = [
+                'https://www.examtopics.com/discussions/google/view/307181-exam-generative-ai-leader-topic-1-question-1-discussion/',
+                'https://www.examtopics.com/discussions/google/view/307208-exam-generative-ai-leader-topic-1-question-2-discussion/',
+                'https://www.examtopics.com/discussions/google/view/307209-exam-generative-ai-leader-topic-1-question-3-discussion/',
+                'https://www.examtopics.com/discussions/google/view/307210-exam-generative-ai-leader-topic-1-question-4-discussion/',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-5-discussion-p1152714.html',
+                'https://www.examtopics.com/discussions/google/view/310170-exam-generative-ai-leader-topic-1-question-6-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310182-exam-generative-ai-leader-topic-1-question-7-discussion/',
+                'https://www.validtests.com/discussions/google/view/exam-generative-ai-leader-topic-1-question-8-discussion',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-9-discussion-p1211862.html',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-10-discussion-p1162236.html',
+                'https://www.examdiscuss.com/Google/discussions/1168195-exam-generative-ai-leader-topic-1-question-11-discussion/',
+                'https://www.pass4success.com/google/exam/generative-ai-leader',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-13-discussion-p1156884.html',
+                'https://www.examtopics.com/exams/google/generative-ai-leader/view/',
+                'https://www.examdiscuss.com/Google/discussions/1172158-exam-generative-ai-leader-topic-1-question-15-discussion/',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-16-discussion-p1155622.html',
+                'https://www.examdiscuss.com/Google/discussions/1152661-exam-generative-ai-leader-topic-1-question-17-discussion/',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-18-discussion-p1154841.html',
+                'https://www.fast2test.com/discussions/Google/1160464-exam-generative-ai-leader-topic-1-question-19-discussion/',
+                'https://www.examdiscuss.com/Google/discussions/1163223-exam-generative-ai-leader-topic-1-question-20-discussion/',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-21-discussion-p1165916.html',
+                'https://www.examtopics.com/discussions/google/view/310200-exam-generative-ai-leader-topic-2-question-22-discussion/',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-23-discussion-p1220819.html#gjson',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-24-discussion-p1183147.html',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-25-discussion-p1156542.html#gjson',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-26-discussion-p1163023.html',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-27-discussion-p1162628.html',
+                'https://www.pass4success.com/google/exam/generative-ai-leader',
+                'https://www.pass4success.com/google/exam/generative-ai-leader',
+                'https://www.examdiscuss.com/Google/discussions/1154309-exam-generative-ai-leader-topic-1-question-30-discussion/',
+                'https://www.pass4success.com/google/exam/generative-ai-leader',
+                'https://www.actual4test.com/discussions/Google/exam-generative-ai-leader-topic-1-question-32-discussion-p1154298.html',
+                'https://www.examdiscuss.com/Google/discussions/1174296-exam-generative-ai-leader-topic-1-question-33-discussion/',
+                'https://www.examtopics.com/discussions/google/view/308700-exam-generative-ai-leader-topic-2-question-1-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310174-exam-generative-ai-leader-topic-2-question-2-discussion/',
+                'https://www.examtopics.com/discussions/google/view/308222-exam-generative-ai-leader-topic-2-question-3-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310167-exam-generative-ai-leader-topic-2-question-4-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310185-exam-generative-ai-leader-topic-4-question-5-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310176-exam-generative-ai-leader-topic-2-question-6-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310171-exam-generative-ai-leader-topic-2-question-7-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310180-exam-generative-ai-leader-topic-2-question-8-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310172-exam-generative-ai-leader-topic-2-question-9-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310183-exam-generative-ai-leader-topic-2-question-10-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310173-exam-generative-ai-leader-topic-2-question-11-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310181-exam-generative-ai-leader-topic-2-question-12-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310169-exam-generative-ai-leader-topic-2-question-13-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310175-exam-generative-ai-leader-topic-2-question-14-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310179-exam-generative-ai-leader-topic-2-question-15-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310177-exam-generative-ai-leader-topic-2-question-16-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310178-exam-generative-ai-leader-topic-2-question-17-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310186-exam-generative-ai-leader-topic-2-question-18-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310190-exam-generative-ai-leader-topic-2-question-19-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310184-exam-generative-ai-leader-topic-2-question-20-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310192-exam-generative-ai-leader-topic-2-question-21-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310200-exam-generative-ai-leader-topic-2-question-22-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310187-exam-generative-ai-leader-topic-2-question-23-discussion/',
+                'https://www.examtopics.com/discussions/google/view/379902-exam-generative-ai-leader-topic-2-question-24-discussion/',
+                'https://www.examtopics.com/discussions/google/view/379942-exam-generative-ai-leader-topic-2-question-25-discussion/',
+                'https://www.examtopics.com/discussions/google/view/379929-exam-generative-ai-leader-topic-2-question-26-discussion/',
+                'https://www.examtopics.com/discussions/google/view/379911-exam-generative-ai-leader-topic-2-question-27-discussion/',
+                'https://www.examtopics.com/discussions/google/view/379904-exam-generative-ai-leader-topic-2-question-28-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310201-exam-generative-ai-leader-topic-3-question-1-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310198-exam-generative-ai-leader-topic-3-question-2-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310188-exam-generative-ai-leader-topic-3-question-3-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310206-exam-generative-ai-leader-topic-3-question-4-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310199-exam-generative-ai-leader-topic-3-question-5-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310203-exam-generative-ai-leader-topic-3-question-6-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310195-exam-generative-ai-leader-topic-4-question-1-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310196-exam-generative-ai-leader-topic-4-question-2-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310197-exam-generative-ai-leader-topic-4-question-3-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310205-exam-generative-ai-leader-topic-4-question-4-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310185-exam-generative-ai-leader-topic-4-question-5-discussion/',
+                'https://www.examtopics.com/discussions/google/view/310202-exam-generative-ai-leader-topic-4-question-6-discussion/',
+                'https://www.examtopics.com/discussions/google/view/379898-exam-generative-ai-leader-topic-4-question-7-discussion/',
+            ];
+
+            const completed = new Set(
+                JSON.parse(localStorage.getItem('completed') || '[]')
+            );
+            const review = new Set(
+                JSON.parse(localStorage.getItem('review') || '[]')
+            );
+
+            // Create cards
+            links.forEach((link, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.ondblclick = () => handleDoubleClick(i);
+                card.innerHTML = `<a href="${link}" onclick="markCompleted(${i}, event)">Question ${
+                    i + 1
+                }</a>`;
+                document.body.appendChild(card);
+            });
+
+            // On load
+            window.onload = () => {
+                applyClasses();
+            };
+
+            // Mark as completed (green)
+            function markCompleted(index, event) {
+                event.preventDefault();
+
+                // Only mark as completed if not in review
+                if (!review.has(index)) {
+                    completed.add(index);
+                }
+
+                saveStates();
+                applyClasses();
+
+                // Always open the link in new tab
+                window.open(event.target.href, '_blank');
+            }
+
+            // Toggle review (purple) on double-click
+            function handleDoubleClick(index) {
+                if (review.has(index)) {
+                    review.delete(index); // toggle off
+                } else {
+                    review.add(index); // mark as review
+                    completed.delete(index); // remove completed if present
+                }
+                saveStates();
+                applyClasses();
+            }
+
+            // Reset all highlights
+            function resetHighlights() {
+                localStorage.removeItem('completed');
+                localStorage.removeItem('review');
+                completed.clear();
+                review.clear();
+                applyClasses();
+            }
+
+            // Save states to localStorage
+            function saveStates() {
+                localStorage.setItem(
+                    'completed',
+                    JSON.stringify([...completed])
+                );
+                localStorage.setItem('review', JSON.stringify([...review]));
+            }
+
+            // Apply class styling (review > completed)
+            function applyClasses() {
+                document.querySelectorAll('.card').forEach((card, i) => {
+                    card.classList.remove('clicked', 'review');
+
+                    if (review.has(i)) {
+                        card.classList.add('review'); // review has priority
+                    } else if (completed.has(i)) {
+                        card.classList.add('clicked');
+                    }
+                });
+            }
+        </script>
+
+        <button onclick="resetHighlights()" class="reset-btn bottom">
+            Reset Highlights
+        </button>
+    </body>
+</html>

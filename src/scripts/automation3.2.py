@@ -38,9 +38,9 @@ from selenium.webdriver.support import expected_conditions as EC
 # }
 
 # GCP-GAI
-topics = {
-    1 : 33, 2: 28, 3: 6, 4: 8, 
-}
+# topics = {
+#     1 : 33, 2: 28, 3: 6, 4: 8, 
+# }
 
 # AIF-C01 
 # topics = {
@@ -51,6 +51,14 @@ topics = {
 # topics = {
 #     1 : 472,
 # }
+
+# CLF-C02
+topics = {
+    1 : 988,
+}
+
+# START_QUESTION = 685
+# END_QUESTION = 988
 
 # Setup Firefox (with anti-bot tweaks)
 options = Options()
@@ -68,7 +76,7 @@ driver = webdriver.Firefox(service=service, options=options)
 with open("results1.txt", "w") as file:
     for topic, max_qn in topics.items():
         for q_num in range(1, max_qn + 1):
-            query = f"Google Generative AI Leader topic {topic} question {q_num} discussion"
+            query = f"AWS Certified Cloud Practitioner topic {topic} question {q_num} discussion"
             print(f"\n🔍 Searching: Topic {topic} - Question {q_num}")
             driver.get(f"https://duckduckgo.com/?q={query}")
 

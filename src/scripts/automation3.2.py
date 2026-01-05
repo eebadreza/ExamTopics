@@ -27,10 +27,10 @@ from selenium.webdriver.support import expected_conditions as EC
 #     15: 3,
 # }
 
-# AI-104
-# topics = {
-#     1 : 68, 2: 40, 3:48, 4: 127, 5: 58, 6: 4, 7: 2, 8: 5, 9: 3, 10: 2, 11: 1, 12: 1, 13: 2, 14: 1, 15: 1, 16: 1,
-# }
+# AI-102
+topics = {
+    1: 71, 2: 42, 3: 81, 4: 33, 5: 52, 6: 2, 7: 23, 8: 12, 9: 2, 10: 2, 11: 1, 12: 1, 13: 1, 14: 4, 15: 3, 
+}
 
 # GCP-CDL
 # topics = {
@@ -53,9 +53,9 @@ from selenium.webdriver.support import expected_conditions as EC
 # }
 
 # CLF-C02
-topics = {
-    1 : 988,
-}
+# topics = {
+#     1 : 988,
+# }
 
 # START_QUESTION = 685
 # END_QUESTION = 988
@@ -76,7 +76,7 @@ driver = webdriver.Firefox(service=service, options=options)
 with open("results1.txt", "w") as file:
     for topic, max_qn in topics.items():
         for q_num in range(1, max_qn + 1):
-            query = f"AWS Certified Cloud Practitioner topic {topic} question {q_num} discussion"
+            query = f"AExam AI-102 topic {topic} question {q_num} discussion"
             print(f"\n🔍 Searching: Topic {topic} - Question {q_num}")
             driver.get(f"https://duckduckgo.com/?q={query}")
 

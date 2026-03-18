@@ -1,4 +1,4 @@
-# ExamTopics Questions
+# ExamTopics Dumps
 
 This is a simple HTML-based interface to track your progress through AWS & Azure practice questions. Each question is represented as a card that links to the corresponding question page.
 

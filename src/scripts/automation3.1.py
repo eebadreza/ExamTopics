@@ -38,8 +38,18 @@ from selenium.webdriver.support import expected_conditions as EC
 # }
 
 # CCNA
+# topics = {
+#     1: 1395,
+# }
+
+# TA-004
+# topics = {
+#     1: 358,
+# }
+
+# SAA-CO3
 topics = {
-    1: 1395,
+    1 : 1019,
 }
 
 # Setup Firefox (with anti-bot tweaks)
@@ -57,8 +67,10 @@ driver = webdriver.Firefox(service=service, options=options)
 # Open output file
 with open("results.txt", "w") as file:
     for topic, max_qn in topics.items():
-        for q_num in range(766, max_qn + 1):
-            query = f"Cisco 200-301 Exam topic {topic} question {q_num} discussion"
+        for q_num in range(1, max_qn + 1):
+            # query = f"Cisco 200-301 Exam topic {topic} question {q_num} discussion"
+            # query = f"Exam Terraform Associate topic {topic} question {q_num} discussion"
+            query = f"Exam SAA-C03 topic {topic} question {q_num} discussion"
             print(f"\n🔍 Searching: Topic {topic} - Question {q_num}")
             driver.get(f"https://duckduckgo.com/?q={query}")
 

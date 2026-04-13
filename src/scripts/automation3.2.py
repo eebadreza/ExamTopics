@@ -63,14 +63,14 @@ from selenium.webdriver.support import expected_conditions as EC
 # }
 
 # EX200
-# topics = {
-#     1 : 111,
-# }
+topics = {
+    1 : 111,
+}
 
 # SAA-CO3
-topics = {
-    1 : 1019,
-}
+# topics = {
+#     1 : 1019,
+# }
 
 # START_QUESTION = 685
 # END_QUESTION = 988
@@ -91,7 +91,7 @@ driver = webdriver.Firefox(service=service, options=options)
 with open("results1.txt", "w") as file:
     for topic, max_qn in topics.items():
         for q_num in range(1, max_qn + 1):
-            query = f"Exam SAA-C03 topic {topic} question {q_num} discussion"
+            query = f"Exam EX200 topic {topic} question {q_num} discussion"
             print(f"\n🔍 Searching: Topic {topic} - Question {q_num}")
             driver.get(f"https://duckduckgo.com/?q={query}")
 
